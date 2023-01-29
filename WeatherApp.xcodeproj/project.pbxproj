@@ -20,6 +20,7 @@
 		675E4BA72984ECA800555BA7 /* AirConditionScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E4BA62984ECA800555BA7 /* AirConditionScreenView.swift */; };
 		67AB233C29860FEA00A96887 /* WeatherSwipeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AB233B29860FEA00A96887 /* WeatherSwipeable.swift */; };
 		67AB233F2986423300A96887 /* FindCityScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AB233E2986423300A96887 /* FindCityScreenView.swift */; };
+		67C5183D29870BC8005914BB /* FindCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C5183C29870BC8005914BB /* FindCityViewModel.swift */; };
 		67D3B3962986AF6C00B93583 /* WeatherTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B3952986AF6C00B93583 /* WeatherTabBar.swift */; };
 		67D3B3992986B53500B93583 /* WeatherTabBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B3982986B53500B93583 /* WeatherTabBarContainer.swift */; };
 		67D3B39B2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */; };
@@ -74,6 +75,7 @@
 		675E4BA62984ECA800555BA7 /* AirConditionScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirConditionScreenView.swift; sourceTree = "<group>"; };
 		67AB233B29860FEA00A96887 /* WeatherSwipeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSwipeable.swift; sourceTree = "<group>"; };
 		67AB233E2986423300A96887 /* FindCityScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityScreenView.swift; sourceTree = "<group>"; };
+		67C5183C29870BC8005914BB /* FindCityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityViewModel.swift; sourceTree = "<group>"; };
 		67D3B3952986AF6C00B93583 /* WeatherTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBar.swift; sourceTree = "<group>"; };
 		67D3B3982986B53500B93583 /* WeatherTabBarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBarContainer.swift; sourceTree = "<group>"; };
 		67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				67AB233E2986423300A96887 /* FindCityScreenView.swift */,
+				67C5183C29870BC8005914BB /* FindCityViewModel.swift */,
 			);
 			path = FindCity;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67C5183D29870BC8005914BB /* FindCityViewModel.swift in Sources */,
 				67F790F129837A760000EDF9 /* Transitions.swift in Sources */,
 				67F790C92982C1AB0000EDF9 /* AppDelegate.swift in Sources */,
 				67F790D629831A160000EDF9 /* FontDefinition.swift in Sources */,
@@ -655,6 +659,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is shared to the admin";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is shared to the admin";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -686,6 +692,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is shared to the admin";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is shared to the admin";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FindCityScreenView: View {
     @State var searchValue: String = ""
+    @StateObject private var viewModel = FindCityViewModel()
 
     var body: some View {
         ZStack {
@@ -38,6 +39,7 @@ struct FindCityScreenView: View {
                     }
                 }
                 .padding(.top)
+                .scrollDismissesKeyboard(.interactively)
 
                 Spacer()
             }

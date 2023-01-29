@@ -23,7 +23,8 @@ struct WeatherTabBarContainer<Content: View>: View {
             ZStack {
                 content
             }
-            WeatherTabBar(tabs: tabs, tabSelected: $selection)
+            WeatherTabBar(tabs: tabs, tabSelected: $selection,
+                          localSelection: selection)
         }
         .onPreferenceChange(WeatherTabBarItemsPreferenceKey.self) { tabs in
             self.tabs = tabs
