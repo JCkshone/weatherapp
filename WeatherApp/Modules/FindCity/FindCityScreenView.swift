@@ -8,13 +8,79 @@
 import SwiftUI
 
 struct FindCityScreenView: View {
+    @State var searchValue: String = ""
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            WeatherColor.background.color
+                .ignoresSafeArea(.all)
+            
+            VStack {
+                WeatherText(
+                    text: "My Cities",
+                    style: (.mediumTitle, .dark),
+                    alignment: .leading
+                )
+                VStack {
+                    TextField("Search for cities", text: $searchValue)
+                        .foregroundColor(WeatherColor.gray.color)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 14)
+                }
+                .background(WeatherColor.section.color)
+                .cornerRadius(12)
+                
+                ScrollView {
+                    VStack {
+                        ResultFindCity()
+                        ResultFindCity()
+                        ResultFindCity()
+                    }
+                }
+                .padding(.top)
+
+                Spacer()
+            }
+            .padding(.horizontal)
+        }
     }
 }
 
 struct FindCityScreenView_Previews: PreviewProvider {
     static var previews: some View {
         FindCityScreenView()
+    }
+}
+
+struct ResultFindCity: View {
+    var body: some View {
+        HStack {
+            Image(uiImage: UIImage(named: "Icon") ?? UIImage())
+                .resizable()
+                .frame(width: 48, height:  48)
+                .padding(.all)
+            
+            VStack {
+                WeatherText(
+                    text: "Barcelona",
+                    style: (.title, .dark),
+                    alignment: .leading
+                )
+                WeatherText(
+                    text: "10:23",
+                    style: (.titleSection, .gray),
+                    alignment: .leading
+                )
+            }
+            WeatherText(
+                text: "29°",
+                style: (.mediumLightTitle, .gray),
+                alignment: .trailing
+            )
+            .padding(.all)
+            
+        }
+        .background(WeatherColor.section.color)
+        .cornerRadius(16)
     }
 }

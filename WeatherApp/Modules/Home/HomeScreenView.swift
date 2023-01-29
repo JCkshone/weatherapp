@@ -9,13 +9,14 @@ import SwiftUI
 
 struct HomeScreenView: View {
     @EnvironmentObject var coordinator: Coordinator<SplashRouter>
+    @State var tabSelected: WeatherTabBarItem = .weather
 
     var body: some View {
         ZStack {
             WeatherColor.background.color
                 .ignoresSafeArea(.all)
             GeometryReader { proxy in
-                TabView {
+                WeatherTabBarContainer(selection: $tabSelected) {
                     ScrollView {
                         HeaderComponent()
                         ForecastComponent()
@@ -23,15 +24,21 @@ struct HomeScreenView: View {
                             coordinator.show(.airCondition)
                         }
                         ForecastWeek()
-                    }.tabItem {
-                        Text("Funco")
-                    }
-                    MyCitiesScreenView().tabItem {
-                        Text("Funco2")
-                    }
-                    FindCityScreenView().tabItem {
-                        Text("Funco3")
-                    }
+                    }.tabBarItem(
+                        tab: .weather,
+                        selection: $tabSelected
+                    )
+                    
+                    MyCitiesScreenView()
+                        .tabBarItem(
+                            tab: .myCities,
+                            selection: $tabSelected
+                        )
+                    FindCityScreenView()
+                        .tabBarItem(
+                            tab: .searchCities,
+                            selection: $tabSelected
+                        )
                 }
             }
         }

@@ -20,6 +20,10 @@
 		675E4BA72984ECA800555BA7 /* AirConditionScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675E4BA62984ECA800555BA7 /* AirConditionScreenView.swift */; };
 		67AB233C29860FEA00A96887 /* WeatherSwipeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AB233B29860FEA00A96887 /* WeatherSwipeable.swift */; };
 		67AB233F2986423300A96887 /* FindCityScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AB233E2986423300A96887 /* FindCityScreenView.swift */; };
+		67D3B3962986AF6C00B93583 /* WeatherTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B3952986AF6C00B93583 /* WeatherTabBar.swift */; };
+		67D3B3992986B53500B93583 /* WeatherTabBarContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B3982986B53500B93583 /* WeatherTabBarContainer.swift */; };
+		67D3B39B2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */; };
+		67D3B39D2986C0F000B93583 /* WeatherTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B39C2986C0F000B93583 /* WeatherTabBarItem.swift */; };
 		67F790C92982C1AB0000EDF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F790C82982C1AB0000EDF9 /* AppDelegate.swift */; };
 		67F790CB2982C1B80000EDF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F790CA2982C1B80000EDF9 /* SceneDelegate.swift */; };
 		67F790CE2982C3FC0000EDF9 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F790CD2982C3FC0000EDF9 /* SplashScreenView.swift */; };
@@ -70,6 +74,10 @@
 		675E4BA62984ECA800555BA7 /* AirConditionScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirConditionScreenView.swift; sourceTree = "<group>"; };
 		67AB233B29860FEA00A96887 /* WeatherSwipeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSwipeable.swift; sourceTree = "<group>"; };
 		67AB233E2986423300A96887 /* FindCityScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityScreenView.swift; sourceTree = "<group>"; };
+		67D3B3952986AF6C00B93583 /* WeatherTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBar.swift; sourceTree = "<group>"; };
+		67D3B3982986B53500B93583 /* WeatherTabBarContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBarContainer.swift; sourceTree = "<group>"; };
+		67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
+		67D3B39C2986C0F000B93583 /* WeatherTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBarItem.swift; sourceTree = "<group>"; };
 		67F790C82982C1AB0000EDF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67F790CA2982C1B80000EDF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		67F790CD2982C3FC0000EDF9 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
@@ -228,6 +236,16 @@
 			path = FindCity;
 			sourceTree = "<group>";
 		};
+		67D3B3972986B51A00B93583 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				67D3B3952986AF6C00B93583 /* WeatherTabBar.swift */,
+				67D3B3982986B53500B93583 /* WeatherTabBarContainer.swift */,
+				67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		67F790C72982C19E0000EDF9 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,8 +295,10 @@
 		67F790D4298319A10000EDF9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				67D3B3972986B51A00B93583 /* TabBar */,
 				67F790E6298372770000EDF9 /* WeatherText.swift */,
 				67AB233B29860FEA00A96887 /* WeatherSwipeable.swift */,
+				67D3B39C2986C0F000B93583 /* WeatherTabBarItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -454,6 +474,8 @@
 				67F790C92982C1AB0000EDF9 /* AppDelegate.swift in Sources */,
 				67F790D629831A160000EDF9 /* FontDefinition.swift in Sources */,
 				67F790CB2982C1B80000EDF9 /* SceneDelegate.swift in Sources */,
+				67D3B39D2986C0F000B93583 /* WeatherTabBarItem.swift in Sources */,
+				67D3B3992986B53500B93583 /* WeatherTabBarContainer.swift in Sources */,
 				672486AB298222E600647643 /* ContentView.swift in Sources */,
 				675E4BA72984ECA800555BA7 /* AirConditionScreenView.swift in Sources */,
 				67AB233C29860FEA00A96887 /* WeatherSwipeable.swift in Sources */,
@@ -463,11 +485,13 @@
 				672486D729822D7C00647643 /* NavigationType.swift in Sources */,
 				672486D929822E2600647643 /* Coordinator.swift in Sources */,
 				672486D529822D1B00647643 /* Router.swift in Sources */,
+				67D3B39B2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift in Sources */,
 				67F790EE298378D20000EDF9 /* HomeRouter.swift in Sources */,
 				67F790D829831A2B0000EDF9 /* ColorDefinition.swift in Sources */,
 				67AB233F2986423300A96887 /* FindCityScreenView.swift in Sources */,
 				67F790EA298378A20000EDF9 /* HomeScreenView.swift in Sources */,
 				67F790E229836E1A0000EDF9 /* ColorExtension.swift in Sources */,
+				67D3B3962986AF6C00B93583 /* WeatherTabBar.swift in Sources */,
 				67F790CE2982C3FC0000EDF9 /* SplashScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
