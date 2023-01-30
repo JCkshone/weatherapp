@@ -25,6 +25,7 @@ enum SplashRouter: Router {
     
     @ViewBuilder
     public func view() -> some View {
+        
         switch self {
         case .splash:
             SplashScreenView()

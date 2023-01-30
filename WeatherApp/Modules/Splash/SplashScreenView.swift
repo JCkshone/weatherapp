@@ -11,6 +11,7 @@ import MapKit
 
 struct SplashScreenView: View {
     @EnvironmentObject var coordinator: Coordinator<SplashRouter>
+    @ObservedObject var viewModel: SplashViewModel = SplashViewModel()
     
     var body: some View {
         NavigationView {
@@ -59,24 +60,19 @@ struct SplashScreenView: View {
             }
             .toolbar(.hidden, for: .automatic)
             .onAppear {
-                self.requestLocation()
+                viewModel.viewDidLoad()
             }
         }
     }
 }
 
 struct SplashScreenView_Previews: PreviewProvider {
+    
     static var previews: some View {
+
         SplashScreenView()
-    }
-}
-
-
-extension SplashScreenView: CLLocationManagerDelegate {
-    func requestLocation() {
-        var locationManager: CLLocationManager?
-        locationManager = CLLocationManager()
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.startUpdatingLocation()
+            .environmentObject(
+                Coordinator<SplashRouter>.init(startingRoute: .splash)
+            )
     }
 }

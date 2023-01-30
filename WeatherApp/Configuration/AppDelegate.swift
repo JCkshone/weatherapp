@@ -9,11 +9,19 @@ import UIKit
 
 @main
 final class AppDelegate: NSObject, UIApplicationDelegate {
+    let appRegistry = AppRegistry()
     
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+        didFinishLaunchingWithOptions launchOptions: LaunchOptions?
     ) -> Bool {
+        appRegistry.getRegistry().forEach {
+            let result = $0.application(application, didFinishLaunchingWithOptions: launchOptions)
+            if !result {
+                debugPrint("[Error initialized] Registry")
+            }
+        }
+
         return true
     }
     

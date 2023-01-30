@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-open class Coordinator<R: Router>: ObservableObject {
-    
+class Coordinator<R: Router>: ObservableObject {
     public let navigationController: UINavigationController
     public let startingRoute: R?
     
