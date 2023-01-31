@@ -5,48 +5,36 @@
 //  Created by Juan camilo Navarro on 30/01/23.
 //
 
-import Foundation
 import Combine
+import Foundation
+import Resolver
 
-/// - Definitions
+public typealias Reducer<State, Action> = (inout State, Action) -> Void
+public typealias Middleware<State, Action> = (State, Action) -> AnyPublisher<Action, Never>?
 
-protocol Action { }
-protocol ReduxState { }
+public final class Store<State, Action>: ObservableObject {
+    @Published public private(set) var state: State
 
-/// Alias
+    private let reducer: Reducer<State, Action>
+    private let middlewares: [Middleware<State, Action>]
+    private var cancellables = Set<AnyCancellable>()
 
-typealias Dispatcher = (Action) -> Void
-typealias Reducer<State: ReduxState> = (_ state: State, _ action: Action) -> State
-typealias Middleware<StoreState: ReduxState> = (StoreState, Action, @escaping Dispatcher) -> Void
-
-/// - Store
-
-class Store<StoreState: ReduxState>: ObservableObject {
-    
-    var reducer: Reducer<StoreState>
-    var middlewares: [Middleware<StoreState>]
-    
-    @Published var state: StoreState
-    
-    init(
-        reducer: @escaping Reducer<StoreState>,
-        state: StoreState,
-        middlewares: [Middleware<StoreState>] = []
-    ) {
-        self.reducer = reducer
+    public init(state: State, reducer: @escaping Reducer<State, Action>, middlewares: [Middleware<State, Action>] = []) {
         self.state = state
+        self.reducer = reducer
         self.middlewares = middlewares
     }
-    
-    func dispatch(
-        action: Action
-    ) {
-        DispatchQueue.main.async {
-            self.state = self.reducer(self.state, action)
-        }
-        middlewares.forEach { middleware in
-            middleware(state, action, dispatch)
+
+    public func dispatch(_ action: Action) {
+        debugPrint("[Store \(String(describing: State.self))] dispatch Action: \(action)")
+        reducer(&state, action)
+
+        for middleware in middlewares {
+            guard let effect = middleware(state, action) else { break }
+            effect
+                .receive(on: DispatchQueue.main)
+                .sink(receiveValue: dispatch)
+                .store(in: &cancellables)
         }
     }
-    
 }

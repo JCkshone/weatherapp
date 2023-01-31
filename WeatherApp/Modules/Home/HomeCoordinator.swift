@@ -1,5 +1,5 @@
 //
-//  HomeRouter.swift
+//  HomeCoordinator.swift
 //  WeatherApp
 //
 //  Created by Juan camilo Navarro on 26/01/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum HomeRouter: Router {
+enum HomeCoordinator: Router {
     case airConditions
     
     public var transition: NavigationType {

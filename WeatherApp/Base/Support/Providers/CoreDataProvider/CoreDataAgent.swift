@@ -14,13 +14,6 @@ public protocol CoreDataAgent: AnyObject {
     func remove(_ object: NSManagedObject)
 }
 
-
-enum WeatherError {
-    enum CoreData: Error {
-        case objectNotFound
-    }
-}
-
 class CoreDataRepository<Entity: NSManagedObject> {
     let context: NSManagedObjectContext
     

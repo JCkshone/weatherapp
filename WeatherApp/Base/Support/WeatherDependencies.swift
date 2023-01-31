@@ -11,24 +11,28 @@ import Resolver
 public enum WeatherDependencies {
     public static func bindComponents() {
         
-//        // MARK: - General class
-//
-        Resolver.register { LocationProvider(strategy: .coreLocation) as LocationProviderProtocol }
+        // MARK: - General class
 
-//        // MARK: - Environment
-//        Resolver.register(name: .lulo) { EnvProvider(strategy: .lulo) as EnvProviderProtocol }
-//        Resolver.register { EnvConfiguration() as ConfigurationProtocol }.scope(.cached)
+        Resolver.register { LocationProvider(strategy: .coreLocation) as LocationProviderProtocol }
         
-//        // MARK: - Storage
+        // MARK: - Network
+        Resolver.register { NetworkProvider() as NetworkProviderProtocol }
+
+        // MARK: - Use Cases
+        Resolver.register { GetWeatherInfoUseCase() as GetWeatherInfoUseCaseProtocol }
+        
+        
+        // MARK: - Storage
         Resolver.register(name: .userDefaults) { StorageProvider(strategy: .userDefaults) as StorageProviderProtocol }.scope(.application)
         
-        // MARK: - Store
+        // MARK: - Stores
+        
         Resolver.register {
-            Store(
-                reducer: WeatherReducer.reducer,
-                state: WeatherState.neverLoaded,
+            Store<HomeState, HomeAction>(
+                state: .neverLoaded,
+                reducer: HomeReducer.reduce(state:action:),
                 middlewares: [
-                    WeatherMiddleware.middleware()
+                    HomeMiddleware.executeGetWeatherInfo(),
                 ]
             )
         }.scope(.cached)

@@ -31,7 +31,10 @@ struct AirConditionScreenView: View {
                     .padding(.horizontal)
                     
                     ScrollView {
-                        HeaderComponent()
+                        HeaderComponent(
+                            title: "Air condition",
+                            temp: "31"
+                        )
                             .padding(.top)
                         VStack {
                             ContentAirConditionInfo()
