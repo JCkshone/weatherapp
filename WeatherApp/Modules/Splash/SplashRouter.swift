@@ -10,7 +10,7 @@ import SwiftUI
 enum SplashRouter: Router {
     case splash
     case home
-    case airCondition
+    case airCondition(with: AirConditionWithWeather)
     
     public var transition: NavigationType {
         switch self {
@@ -32,8 +32,10 @@ enum SplashRouter: Router {
         case .home:
             HomeScreenView()
             
-        case .airCondition:
-            AirConditionScreenView()
+        case let .airCondition(info):
+            AirConditionScreenView(
+                airCondition: info
+            )
         }
     }
 }

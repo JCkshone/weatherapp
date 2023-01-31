@@ -20,7 +20,7 @@ struct SplashScreenView: View {
                     .ignoresSafeArea(.all)
                 VStack {
                     Image(
-                        uiImage: UIImage(named: "Icon") ?? UIImage()
+                        uiImage: UIImage(named: "01") ?? UIImage()
                     )
                     .resizable()
                     .frame(maxWidth: 200, maxHeight: 200)

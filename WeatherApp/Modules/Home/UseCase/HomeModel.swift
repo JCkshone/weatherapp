@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 // MARK: - HomeModel
 struct HomeModel: Decodable {
     let coord: Coord

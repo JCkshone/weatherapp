@@ -24,7 +24,11 @@ struct WeatherTabBar: View {
             }
         }
         .padding(6)
-        .background(Color.white.ignoresSafeArea(edges: .bottom))
+        .background(
+            WeatherColor.section.color.ignoresSafeArea(
+                edges: .bottom
+            )
+        )
     }
 }
 
@@ -47,12 +51,21 @@ extension WeatherTabBar {
         VStack {
             Image(systemName: tab.iconName)
                 .font(.subheadline)
-            Text("\(tab.title) tab: \(tab.iconName), \(tabSelected.iconName)")
-                .font(.system(size: 10, weight: .semibold, design: .rounded))
+            if !tab.title.isEmpty {
+                Text("\(tab.title)").font(
+                    .system(
+                        size: 10,
+                        weight: .semibold,
+                        design: .rounded
+                    )
+                )
+            }
+            
         }
-        .foregroundColor(tabSelected == tab ? tab.color : Color.gray)
+        .foregroundColor(tabSelected == tab ? tab.color : Color.gray.opacity(0.8))
         .padding(.vertical, 8)
         .frame(maxWidth: .infinity)
+        .frame(height: 50)
         .background(tabSelected == tab ? tab.color.opacity(0.2) : Color.clear )
         .cornerRadius(10)
     }

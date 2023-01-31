@@ -21,15 +21,22 @@ struct HomeScreenView: View {
                     ScrollView {
                         HeaderComponent(
                             title: viewModel.weatherInfo?.name ?? .empty,
-                            temp: viewModel.temp
+                            temp: viewModel.temp,
+                            icon: viewModel.icon
                         )
                         ForecastComponent(
                             forecasts: $viewModel.forecastToday
                         )
-                        AirConditions {
-                            coordinator.show(.airCondition)
+                        AirConditions(
+                            aircondition: viewModel.airCondition
+                        ) {
+                            coordinator.show(.airCondition(
+                                with: viewModel.getAirConditionInfo()
+                            ))
                         }
-                        ForecastWeek()
+                        ForecastWeek(
+                            forecastDays: viewModel.forecastDays
+                        )
                     }.tabBarItem(
                         tab: .weather,
                         selection: $tabSelected
@@ -73,6 +80,7 @@ struct HomeScreenView_Previews: PreviewProvider {
 struct HeaderComponent: View {
     let title: String
     let temp: String
+    let icon: String
     
     var body: some View {
         VStack {
@@ -84,7 +92,7 @@ struct HeaderComponent: View {
                 text: "Chance of rain: 0%",
                 style: (.description, .gray)
             )
-            Image(uiImage: UIImage(named: "Icon") ?? UIImage())
+            Image(uiImage: UIImage(named: icon) ?? UIImage())
                 .resizable()
                 .frame(width: 160, height:  160)
             WeatherText(

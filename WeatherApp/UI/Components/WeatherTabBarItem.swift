@@ -37,9 +37,9 @@ enum WeatherTabBarItem: Hashable {
     
     var color: Color {
         switch self {
-        case .weather: return .red
-        case .myCities: return .blue
-        case .searchCities: return .green
+        case .weather: return WeatherColor.gray.color
+        case .myCities: return WeatherColor.gray.color
+        case .searchCities: return WeatherColor.gray.color
         }
     }
 }

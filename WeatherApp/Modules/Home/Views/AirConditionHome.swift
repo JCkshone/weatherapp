@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct AirConditions: View {
+    let aircondition: ForecastCurrent?
     let action: () -> Void
+    
+    func convertToCelsius(_ value: Double) -> String {
+        let t = Measurement(value: value, unit: UnitTemperature.kelvin)
+        return "\(round(t.converted(to: UnitTemperature.celsius).value))°C"
+    }
 
     var body: some View {
         VStack {
@@ -36,14 +42,30 @@ struct AirConditions: View {
             
             
             HStack {
-                AirConditionItem()
-                AirConditionItem()
+                AirConditionItem(
+                    icon: "thermometer.low",
+                    title: "Real Feel",
+                    value: self.convertToCelsius(aircondition?.feelsLike ?? .zero)
+                )
+                AirConditionItem(
+                    icon: "wind",
+                    title: "Wind",
+                    value: "\(aircondition?.windSpeed ?? .zero) km/h"
+                )
             }
             Spacer()
                 .frame(height: 10)
             HStack {
-                AirConditionItem()
-                AirConditionItem()
+                AirConditionItem(
+                    icon: "humidity.fill",
+                    title: "Chance of rain",
+                    value: "\(aircondition?.humidity ?? .zero) %"
+                )
+                AirConditionItem(
+                    icon: "sun.max.fill",
+                    title: "UV Index",
+                    value: "\(aircondition?.uvi ?? .zero)"
+                )
             }
             .padding(.bottom)
         }
@@ -54,20 +76,24 @@ struct AirConditions: View {
 }
 
 struct AirConditionItem: View {
+    let icon: String
+    let title: String
+    let value: String
+    
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "thermometer.low")
+                Image(systemName: icon)
                     .foregroundColor(WeatherColor.gray.color)
                 WeatherText(
-                    text: "Real Feel",
+                    text: title,
                     style: (.description, .gray),
                     alignment: .leading
                 )
             }
             .padding(.horizontal)
             WeatherText(
-                text: "30°",
+                text: value,//"30°",
                 style: (.title, .dark),
                 alignment: .leading
             )

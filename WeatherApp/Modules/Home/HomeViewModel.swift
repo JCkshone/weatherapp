@@ -21,13 +21,30 @@ enum HomeViewState {
 struct ForecastToday {
     let time: String
     let temp: String
+    let icon: String
+}
+
+struct AirConditionToday {
+    let temp: String
+    let windSpeed: String
+}
+
+struct ForecastDayWithIcon {
+    let day: String
+    let icon: String
+    let weatherName: String
+    let temp: String
+    let realTemp: String
 }
 
 class HomeViewModel: ObservableObject {
     @Published var viewState: HomeViewState = .isLoading
     @Published var weatherInfo: HomeModel? = nil
     @Published var temp: String = ""
+    @Published var icon: String = ""
     @Published var forecastToday: [ForecastToday] = []
+    @Published var forecastDays: [ForecastDayWithIcon] = []
+    @Published var airCondition: ForecastCurrent? = nil
     
     @Injected var locationProvider: LocationProviderProtocol
     @Injected var store: Store<HomeState, HomeAction>
@@ -45,6 +62,20 @@ class HomeViewModel: ObservableObject {
 
 extension HomeViewModel {
     
+    func getAirConditionInfo() -> AirConditionWithWeather {
+        AirConditionWithWeather(
+            title: weatherInfo?.name ?? .empty,
+            icon: icon,
+            temp: temp,
+            uv: "\(airCondition?.uvi ?? .zero)",
+            wind: "\(airCondition?.windSpeed ?? .zero) km/h",
+            humidity: "\(airCondition?.humidity ?? .zero) %",
+            feelsLike: "\(airCondition?.feelsLike ?? .zero)°",
+            visibility: "\((airCondition?.visibility ?? .zero)/1000) km",
+            pressure: "\(airCondition?.pressure ?? .zero) hPa"
+        )
+    }
+    
     // MARK: - Suscribe
     func suscribeStore() {
         store.$state.sink { [weak self] state in
@@ -52,11 +83,27 @@ extension HomeViewModel {
             switch state {
             case let .loadedWeatherInfo(info, forecast):
                 self.forecastToday = forecast.hourly.map {
-                    ForecastToday(time: "\($0.dt)", temp: self.convertToCelsius($0.temp))
+                    ForecastToday(
+                        time: "\($0.dt)".getTime(),
+                        temp: self.convertToCelsius($0.temp),
+                        icon: self.loadIcon(weathers: $0.weather)
+                    )
+                }
+                
+                self.forecastDays = forecast.daily.map {
+                    ForecastDayWithIcon(
+                        day: "\($0.dt)".getDay(),
+                        icon: self.loadIcon(weathers: $0.weather),
+                        weatherName: $0.weather.first?.main ?? .empty,
+                        temp: self.convertToCelsius($0.temp.day, addCelsius: false).components(separatedBy: ".").first ?? .empty,
+                        realTemp: self.convertToCelsius($0.feelsLike.day, addCelsius: false).components(separatedBy: ".").first ?? .empty
+                    )
                 }
                 self.weatherInfo = info
                 self.temp = self.convertToCelsius(info.main.temp)
+                self.icon = self.loadIcon(weathers: info.weather)
                 self.viewState = .showWeather
+                self.airCondition = forecast.hourly.first
             default:
                 break
             }
@@ -80,8 +127,16 @@ extension HomeViewModel {
         .store(in: &cancellables)
     }
     
-    func convertToCelsius(_ value: Double) -> String {
+    func convertToCelsius(_ value: Double, addCelsius: Bool = true) -> String {
         let t = Measurement(value: value, unit: UnitTemperature.kelvin)
-        return "\(round(t.converted(to: UnitTemperature.celsius).value))°C"
+        return "\(round(t.converted(to: UnitTemperature.celsius).value))" + (addCelsius ? "°C" : .empty)
+    }
+    
+    func loadIcon(weathers: [Weather]) -> String {
+        guard let weather = weathers.first else {
+            return "01"
+        }
+        
+        return weather.icon.digits
     }
 }

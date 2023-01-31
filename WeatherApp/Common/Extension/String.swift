@@ -9,4 +9,10 @@ import Foundation
 
 extension String {
     static let empty = ""
+    
+    var digits: String {
+        return components(
+            separatedBy: CharacterSet.decimalDigits.inverted
+        ).joined()
+    }
 }

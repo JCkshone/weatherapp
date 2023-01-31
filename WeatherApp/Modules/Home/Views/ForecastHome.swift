@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct ForecastItem: View {
+    let info: ForecastToday
+    
     var body: some View {
         VStack {
             WeatherText(
-                text: "9:00 AM",
+                text: info.time,
                 style: (.title, .gray)
             )
-            Image(uiImage: UIImage(named: "Icon") ?? UIImage())
+            Image(uiImage: UIImage(named: info.icon) ?? UIImage())
                 .resizable()
                 .frame(width: 64, height:  64)
             WeatherText(
-                text: "31°",
+                text: info.temp,
                 style: (.title, .dark)
             )
         }
@@ -39,7 +41,7 @@ struct ForecastComponent: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 10) {
                     ForEach(Array(forecasts.enumerated()), id: \.offset) { (position, item) in
-                        ForecastItem()
+                        ForecastItem(info: item)
                         if position < forecasts.count - 1 {
                             Divider()
                         }
@@ -57,31 +59,33 @@ struct ForecastComponent: View {
 }
 
 struct ForecastDay: View {
+    let forecast: ForecastDayWithIcon
+    
     var body: some View {
         HStack(alignment: .center) {
             WeatherText(
-                text: "Today",
+                text: forecast.day.capitalized,
                 style: (.description, .gray),
                 alignment: .leading
             )
-            Image(uiImage: UIImage(named: "Icon") ?? UIImage())
+            Image(uiImage: UIImage(named: forecast.icon) ?? UIImage())
                 .resizable()
                 .frame(width: 38, height:  38)
                 .padding(.trailing, 16)
             
             WeatherText(
-                text: "Sunny",
+                text: forecast.weatherName,
                 style: (.title, .dark)
             )
 
             HStack {
                 WeatherText(
-                    text: "36",
+                    text: "\(forecast.temp)°",
                     style: (.title, .dark),
                     alignment: .trailing
                 )
                 WeatherText(
-                    text: "/  22",
+                    text: "/\(forecast.realTemp)°",
                     style: (.description, .gray),
                     alignment: .leading
                 )
@@ -94,25 +98,28 @@ struct ForecastDay: View {
 }
 
 struct ForecastWeek: View {
+    let forecastDays: [ForecastDayWithIcon]
     var body: some View {
         VStack {
             WeatherText(
-                text: "7-day forecast".uppercased(),
+                text: "\(forecastDays.count)-day forecast".uppercased(),
                 style: (.titleSection, .gray),
                 alignment: .leading
             )
             .padding(.horizontal)
             .padding(.top)
             
-            ForEach(0..<7) { position in
-                
-                if position < 6 {
-                    ForecastDay()
+            ForEach(Array(forecastDays.enumerated()), id: \.offset) { (position, item) in
+                if position < forecastDays.count - 1 {
+                    ForecastDay(
+                        forecast: item
+                    )
                     Divider()
                         .padding(.horizontal)
                 } else {
-                    ForecastDay()
-                        .padding(.bottom, 12)
+                    ForecastDay(
+                        forecast: item
+                    ).padding(.bottom, 12)
                 }
             }
         }

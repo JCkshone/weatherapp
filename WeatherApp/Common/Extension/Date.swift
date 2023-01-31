@@ -12,10 +12,31 @@ extension String {
         guard let unix = Double(self) else {
             return.empty
         }
+
         let date = Date(timeIntervalSince1970: unix)
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        let minute = calendar.component(.minute, from: date)
-        return "\(hour):\(minute)"
+        let dateFormatter = DateFormatter()
+        let timezone = TimeZone.current.abbreviation() ?? "CET"
+        
+        dateFormatter.timeZone = TimeZone(abbreviation: timezone)
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "HH:mm a"
+        
+        return dateFormatter.string(from: date)
+    }
+    
+    func getDay() -> String {
+        guard let unix = Double(self) else {
+            return.empty
+        }
+
+        let date = Date(timeIntervalSince1970: unix)
+        let dateFormatter = DateFormatter()
+        let timezone = TimeZone.current.abbreviation() ?? "CET"
+        
+        dateFormatter.timeZone = TimeZone(abbreviation: timezone)
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "EEEE"
+        
+        return dateFormatter.string(from: date)
     }
 }

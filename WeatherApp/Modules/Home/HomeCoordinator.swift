@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum HomeCoordinator: Router {
-    case airConditions
+    case airConditions(AirConditionWithWeather)
     
     public var transition: NavigationType {
         switch self {
@@ -20,8 +20,8 @@ enum HomeCoordinator: Router {
     @ViewBuilder
     public func view() -> some View {
         switch self {
-        case .airConditions:
-            AirConditionScreenView()
+        case let .airConditions(info):
+            AirConditionScreenView(airCondition: info)
         }
     }
 }
