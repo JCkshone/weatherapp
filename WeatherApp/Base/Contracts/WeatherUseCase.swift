@@ -12,3 +12,7 @@ import Combine
 protocol GetWeatherInfoUseCaseProtocol: AnyObject {
     func execute(lat: Double, long: Double) -> AnyPublisher<ApiResponse<HomeModel>, WeatherError.Api>
 }
+
+protocol GetForecastInfoUseCaseProtocol: AnyObject {
+    func execute(lat: Double, long: Double) -> AnyPublisher<ApiResponse<ForecastDayModel>, WeatherError.Api>
+}

@@ -20,7 +20,8 @@ public enum WeatherDependencies {
 
         // MARK: - Use Cases
         Resolver.register { GetWeatherInfoUseCase() as GetWeatherInfoUseCaseProtocol }
-        
+        Resolver.register { GetForecastInfoUseCase() as GetForecastInfoUseCaseProtocol }
+
         
         // MARK: - Storage
         Resolver.register(name: .userDefaults) { StorageProvider(strategy: .userDefaults) as StorageProviderProtocol }.scope(.application)

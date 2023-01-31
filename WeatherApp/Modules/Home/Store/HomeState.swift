@@ -10,9 +10,6 @@ import Foundation
 enum HomeState {
     case neverLoaded
     case loadingWeatherInfo
-    case loadedWeatherInfo(HomeModel)
-    
-    case loadingForecastInfo
-    case loadedForecastInfo(ForecastDayModel)
+    case loadedWeatherInfo(HomeModel, ForecastDayModel)
     case withError(Error)
 }

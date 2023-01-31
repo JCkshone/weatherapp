@@ -13,19 +13,10 @@ enum HomeReducer {
         case .getCityWeather:
             state = .loadingWeatherInfo
         
-        case let .getCityWeatherSuccess(info):
-            state = .loadedWeatherInfo(info)
+        case let .getCityWeatherSuccess(info, forecast):
+            state = .loadedWeatherInfo(info, forecast)
             
         case let .getCityWeatherFailure(error):
-            state = .withError(error)
-            
-        case .getForecastCity:
-            state = .loadingForecastInfo
-            
-        case let .getForecastCitySuccess(info):
-            state = .loadedForecastInfo(info)
-            
-        case let .getForecastCityFailure(error):
             state = .withError(error)
         }
     }

@@ -36,7 +36,7 @@ struct ForecastCurrent: Decodable {
     let windDeg: Int
     let weather: [Weather]
     let windGust: Double?
-    let pop: Int?
+    let pop: Double?
 
     enum CodingKeys: String, CodingKey {
         case dt, sunrise, sunset, temp
@@ -89,8 +89,8 @@ struct Daily: Decodable {
     let windGust: Double
     let weather: [Weather]
     let clouds: Int
-    let pop, uvi: Double
-    let rain: Double?
+    let uvi: Double
+    let rain, pop: Double?
 
     enum CodingKeys: String, CodingKey {
         case dt, sunrise, sunset, moonrise, moonset

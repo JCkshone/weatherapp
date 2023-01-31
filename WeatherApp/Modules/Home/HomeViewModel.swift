@@ -50,10 +50,13 @@ extension HomeViewModel {
         store.$state.sink { [weak self] state in
             guard let self = self else { return }
             switch state {
-            case let .loadedWeatherInfo(info):
+            case let .loadedWeatherInfo(info, forecast):
+                self.forecastToday = forecast.hourly.map {
+                    ForecastToday(time: "\($0.dt)", temp: self.convertToCelsius($0.temp))
+                }
                 self.weatherInfo = info
+                self.temp = self.convertToCelsius(info.main.temp)
                 self.viewState = .showWeather
-                self.convertToCelsius(info.main.temp ?? .zero)
             default:
                 break
             }
@@ -71,15 +74,14 @@ extension HomeViewModel {
     }
     
     func updateWeather() {
-        //store.dispatch(action: WeatherAction.loadLocation)
         locationProvider.agent.location.sink { location in
             
         }
         .store(in: &cancellables)
     }
     
-    func convertToCelsius(_ value: Double) {
+    func convertToCelsius(_ value: Double) -> String {
         let t = Measurement(value: value, unit: UnitTemperature.kelvin)
-        temp = "\(round(t.converted(to: UnitTemperature.celsius).value))°C"
+        return "\(round(t.converted(to: UnitTemperature.celsius).value))°C"
     }
 }
