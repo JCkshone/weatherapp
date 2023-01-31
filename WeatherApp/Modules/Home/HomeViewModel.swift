@@ -136,7 +136,6 @@ extension HomeViewModel {
         guard let weather = weathers.first else {
             return "01"
         }
-        
         return weather.icon.digits
     }
 }

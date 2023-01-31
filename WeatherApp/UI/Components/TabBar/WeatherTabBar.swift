@@ -18,7 +18,6 @@ struct WeatherTabBar: View {
             ForEach(tabs, id: \.self) { tab in
                 tabView(tab: tab)
                     .onTapGesture {
-                        print(tab)
                         switchToTap(tab: tab)
                     }
             }

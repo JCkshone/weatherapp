@@ -61,6 +61,12 @@
 		67D3B39B2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */; };
 		67D3B39D2986C0F000B93583 /* WeatherTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D3B39C2986C0F000B93583 /* WeatherTabBarItem.swift */; };
 		67D596982989538700A59825 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D596972989538700A59825 /* View.swift */; };
+		67D5969E2989856A00A59825 /* FindCityUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D5969D2989856A00A59825 /* FindCityUseCase.swift */; };
+		67D596A0298985AF00A59825 /* FindCityMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D5969F298985AF00A59825 /* FindCityMiddleware.swift */; };
+		67D596A2298985C700A59825 /* FindCityAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D596A1298985C700A59825 /* FindCityAction.swift */; };
+		67D596A4298985D100A59825 /* FindCityReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D596A3298985D100A59825 /* FindCityReducer.swift */; };
+		67D596A6298985DB00A59825 /* FindCityState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D596A5298985DB00A59825 /* FindCityState.swift */; };
+		67D596A82989884D00A59825 /* FindCityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D596A72989884D00A59825 /* FindCityModel.swift */; };
 		67F790C92982C1AB0000EDF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F790C82982C1AB0000EDF9 /* AppDelegate.swift */; };
 		67F790CB2982C1B80000EDF9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F790CA2982C1B80000EDF9 /* SceneDelegate.swift */; };
 		67F790CE2982C3FC0000EDF9 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F790CD2982C3FC0000EDF9 /* SplashScreenView.swift */; };
@@ -151,6 +157,12 @@
 		67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		67D3B39C2986C0F000B93583 /* WeatherTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTabBarItem.swift; sourceTree = "<group>"; };
 		67D596972989538700A59825 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		67D5969D2989856A00A59825 /* FindCityUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityUseCase.swift; sourceTree = "<group>"; };
+		67D5969F298985AF00A59825 /* FindCityMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityMiddleware.swift; sourceTree = "<group>"; };
+		67D596A1298985C700A59825 /* FindCityAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityAction.swift; sourceTree = "<group>"; };
+		67D596A3298985D100A59825 /* FindCityReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityReducer.swift; sourceTree = "<group>"; };
+		67D596A5298985DB00A59825 /* FindCityState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityState.swift; sourceTree = "<group>"; };
+		67D596A72989884D00A59825 /* FindCityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCityModel.swift; sourceTree = "<group>"; };
 		67F790C82982C1AB0000EDF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67F790CA2982C1B80000EDF9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		67F790CD2982C3FC0000EDF9 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
@@ -440,6 +452,8 @@
 		67AB233D298640DD00A96887 /* FindCity */ = {
 			isa = PBXGroup;
 			children = (
+				67D5969C298984F600A59825 /* UseCase */,
+				67D5969B298984C600A59825 /* Store */,
 				67AB233E2986423300A96887 /* FindCityScreenView.swift */,
 				67C5183C29870BC8005914BB /* FindCityViewModel.swift */,
 			);
@@ -454,6 +468,26 @@
 				67D3B39A2986B8EB00B93583 /* WeatherTabBarItemsPreferenceKey.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		67D5969B298984C600A59825 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				67D5969F298985AF00A59825 /* FindCityMiddleware.swift */,
+				67D596A1298985C700A59825 /* FindCityAction.swift */,
+				67D596A3298985D100A59825 /* FindCityReducer.swift */,
+				67D596A5298985DB00A59825 /* FindCityState.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		67D5969C298984F600A59825 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				67D5969D2989856A00A59825 /* FindCityUseCase.swift */,
+				67D596A72989884D00A59825 /* FindCityModel.swift */,
+			);
+			path = UseCase;
 			sourceTree = "<group>";
 		};
 		67F790C72982C19E0000EDF9 /* Configuration */ = {
@@ -708,8 +742,10 @@
 				6795A6352988667E0077B318 /* SplashViewModel.swift in Sources */,
 				6795A658298899E20077B318 /* String.swift in Sources */,
 				6795A63E2988708E0077B318 /* HomeViewModel.swift in Sources */,
+				67D596A6298985DB00A59825 /* FindCityState.swift in Sources */,
 				67F790F129837A760000EDF9 /* Transitions.swift in Sources */,
 				6795A62B29884DF60077B318 /* CLLocationAgent.swift in Sources */,
+				67D596A2298985C700A59825 /* FindCityAction.swift in Sources */,
 				6795A64C2988935A0077B318 /* WeatherUseCase.swift in Sources */,
 				67F790C92982C1AB0000EDF9 /* AppDelegate.swift in Sources */,
 				6795A65E2988B8D90077B318 /* HomeModel.swift in Sources */,
@@ -725,11 +761,13 @@
 				6795A63C29886E850077B318 /* ActivityIndicator.swift in Sources */,
 				6795A6602988CEEB0077B318 /* ForecastDayModel.swift in Sources */,
 				672486AB298222E600647643 /* ContentView.swift in Sources */,
+				67D596A0298985AF00A59825 /* FindCityMiddleware.swift in Sources */,
 				675E4BA72984ECA800555BA7 /* AirConditionScreenView.swift in Sources */,
 				67AB233C29860FEA00A96887 /* WeatherSwipeable.swift in Sources */,
 				6746FD122985755500D2A46E /* MyCitiesScreenView.swift in Sources */,
 				67F790D02982C40D0000EDF9 /* SplashRouter.swift in Sources */,
 				6795A618298825AB0077B318 /* StorageProvider.swift in Sources */,
+				67D596A4298985D100A59825 /* FindCityReducer.swift in Sources */,
 				6795A656298899110077B318 /* WeatherApiEnums.swift in Sources */,
 				67F790E7298372770000EDF9 /* WeatherText.swift in Sources */,
 				672486D729822D7C00647643 /* NavigationType.swift in Sources */,
@@ -745,12 +783,14 @@
 				6795A64329888AFF0077B318 /* HomeAction.swift in Sources */,
 				67AB233F2986423300A96887 /* FindCityScreenView.swift in Sources */,
 				6795A64729888B310077B318 /* HomeState.swift in Sources */,
+				67D5969E2989856A00A59825 /* FindCityUseCase.swift in Sources */,
 				6795A62729884DC50077B318 /* LocationProvider.swift in Sources */,
 				6795A613298823B60077B318 /* WeatherDependencies.swift in Sources */,
 				6795A64A298893040077B318 /* HomeUseCase.swift in Sources */,
 				67F790EA298378A20000EDF9 /* HomeScreenView.swift in Sources */,
 				67F790E229836E1A0000EDF9 /* Color.swift in Sources */,
 				6795A64129888AF00077B318 /* HomeMiddleware.swift in Sources */,
+				67D596A82989884D00A59825 /* FindCityModel.swift in Sources */,
 				67D596982989538700A59825 /* View.swift in Sources */,
 				67D3B3962986AF6C00B93583 /* WeatherTabBar.swift in Sources */,
 				6795A6512988985A0077B318 /* NetworkAgent.swift in Sources */,

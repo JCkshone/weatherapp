@@ -21,6 +21,7 @@ public enum WeatherDependencies {
         // MARK: - Use Cases
         Resolver.register { GetWeatherInfoUseCase() as GetWeatherInfoUseCaseProtocol }
         Resolver.register { GetForecastInfoUseCase() as GetForecastInfoUseCaseProtocol }
+        Resolver.register { SearchCityUseCase() as SearchCityUseCaseProtocol }
 
         
         // MARK: - Storage
@@ -34,6 +35,16 @@ public enum WeatherDependencies {
                 reducer: HomeReducer.reduce(state:action:),
                 middlewares: [
                     HomeMiddleware.executeGetWeatherInfo(),
+                ]
+            )
+        }.scope(.cached)
+        
+        Resolver.register {
+            Store<FindCityState, FindCityAction>(
+                state: .neverLoaded,
+                reducer: FindCityReducer.reduce(state:action:),
+                middlewares: [
+                    FindCityMiddleware.executeGetWeatherInfo(),
                 ]
             )
         }.scope(.cached)

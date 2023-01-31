@@ -13,4 +13,11 @@ extension View {
         let t = Measurement(value: value, unit: UnitTemperature.kelvin)
         return "\(round(t.converted(to: UnitTemperature.celsius).value))°C"
     }
+    
+    func loadIcon(weathers: [Weather]) -> String {
+        guard let weather = weathers.first else {
+            return "01"
+        }
+        return weather.icon.digits
+    }
 }

@@ -20,7 +20,7 @@ public struct ApiResponse<T: Decodable> {
     public let code: Int
 }
 
-public protocol WeatherRoutable {
+public protocol WeatherRoutable: BaseUrl {
     var path: String { get }
     var queryParams: HttpQueryParams { get }
     var headers: HttpHeaders { get }

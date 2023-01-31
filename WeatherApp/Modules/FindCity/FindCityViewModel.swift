@@ -8,47 +8,56 @@
 import Foundation
 import Combine
 import MapKit
+import Resolver
 
-class FindCityViewModel: ObservableObject {
-
+enum FindCityViewState {
+    case showResults
+    case isLoading
 }
 
-final class LocalSearchService {
-    let localSearchPublisher = PassthroughSubject<[MKMapItem], Never>()
-    private let center: CLLocationCoordinate2D
-    private let radius: CLLocationDistance
+class FindCityViewModel: ObservableObject {
+    @Published var response: FindCityModel?
+    @Published var searchValue: String = ""
+    @Published var viewState: HomeViewState = .showWeather
+    @Published var showConfirmation: Bool = false
+    
+    @Injected var store: Store<FindCityState, FindCityAction>
+    
+    private var cancellables = Set<AnyCancellable>()
 
-    init(in center: CLLocationCoordinate2D,
-         radius: CLLocationDistance = 350_000) {
-        self.center = center
-        self.radius = radius
+    deinit {
+        cancellables.removeAll()
     }
     
-    public func searchCities(searchText: String) {
-        request(resultType: .address, searchText: searchText)
+    func viewDidLoad() {
+        suscribeStore()
     }
-    
-    public func searchPointOfInterests(searchText: String) {
-        request(searchText: searchText)
-    }
-    
-    private func request(resultType: MKLocalSearch.ResultType = .pointOfInterest,
-                         searchText: String) {
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = searchText
-        request.pointOfInterestFilter = .includingAll
-        request.resultTypes = resultType
-        request.region = MKCoordinateRegion(center: center,
-                                            latitudinalMeters: radius,
-                                            longitudinalMeters: radius)
-        let search = MKLocalSearch(request: request)
+}
 
-        search.start { [weak self](response, _) in
-            guard let response = response else {
-                return
+extension FindCityViewModel {
+    // MARK: - Suscribe
+    func suscribeStore() {
+        store.$state.sink { [weak self] state in
+            guard let self = self else { return }
+            switch state {
+            case let .resultOfSearch(response):
+                self.response = response
+                self.viewState = .showWeather
+            case .withError:
+                self.viewState = .showWeather
+            default: break
             }
-
-            self?.localSearchPublisher.send(response.mapItems)
-        }
+        }.store(in: &cancellables)
+        
+    }
+    
+    func searchExecution() {
+        viewState = .isLoading
+        store.dispatch(.search(searchValue))
+    }
+    
+    func saveCity(with info: WeatherResult) {
+        print(info)
+        showConfirmation = true
     }
 }

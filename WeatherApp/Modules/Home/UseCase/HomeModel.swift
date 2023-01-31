@@ -42,16 +42,16 @@ struct Main: Decodable {
 
 // MARK: - Sys
 struct Sys: Decodable {
-    let type, id: Int
+    let type, id: Int?
     let country: String
-    let sunrise, sunset: Int
+    let sunrise, sunset: Int?
 }
 
 // MARK: - Weather
 struct Weather: Decodable {
     let id: Int
     let icon: String
-    let weatherDescription: String?
+    let weatherDescription, description: String?
     let main: String?
 }
 
