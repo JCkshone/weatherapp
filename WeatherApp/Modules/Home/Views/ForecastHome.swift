@@ -36,16 +36,16 @@ struct ForecastComponent: View {
                 alignment: .leading
             )
             .padding(.all, 16)
-            ScrollView {
-                HStack {
-                    
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 10) {
                     ForEach(Array(forecasts.enumerated()), id: \.offset) { (position, item) in
                         ForecastItem()
-                        if position < 2 {
+                        if position < forecasts.count - 1 {
                             Divider()
                         }
                     }
                 }
+                .padding(.horizontal)
             }
             .padding(.bottom, 16)
             
