@@ -1,0 +1,109 @@
+//
+//  MyCitiesScreenView.swift
+//  WeatherApp
+//
+//  Created by Juan camilo Navarro on 28/01/23.
+//
+
+import SwiftUI
+
+struct MyCitiesScreenView: View {
+    @StateObject private var viewModel = MyCitiesViewModel()
+    @State var searchValue: String = ""
+
+    var body: some View {
+        ZStack {
+            WeatherColor.background.color
+                .ignoresSafeArea(.all)
+            
+            VStack {
+                WeatherText(
+                    text: "My Cities",
+                    style: (.mediumTitle, .dark),
+                    alignment: .leading
+                )
+                VStack {
+                    TextField("Search for cities", text: $searchValue)
+                        .foregroundColor(WeatherColor.gray.color)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 14)
+                }
+                .background(WeatherColor.section.color)
+                .cornerRadius(12)
+                
+                ScrollView {
+                    LazyVStack(spacing: 6) {
+                        ForEach(
+                            Array(
+                                (viewModel.cities).enumerated()
+                            ), id: \.offset
+                        ) { (position, item) in
+                            MyCityItem(
+                                info: item
+                            ) { itemForRemove in
+                                viewModel.delete(entity: itemForRemove.entity)
+                            }
+                        }
+                    }
+                }
+                .padding(.top)
+                .refreshable {
+                    viewModel.loadCities()
+                }
+
+                Spacer()
+            }
+            .padding(.horizontal)
+        }
+        .onAppear {
+            viewModel.loadCities()
+        }
+    }
+}
+
+struct MyCitiesScreenView_Previews: PreviewProvider {
+    static var previews: some View {
+        MyCitiesScreenView()
+    }
+}
+
+struct MyCityItem: View {
+    let info: MyCitiesItem
+    let removeAction: (MyCitiesItem) -> Void
+    
+    var body: some View {
+        WeatherSwipeable(content: {
+            ZStack {
+                HStack(alignment: .center) {
+                    WeatherText(
+                        text: info.name,
+                        style: (.semiMediumTitle, .dark),
+                        alignment: .leading
+                    )
+                    
+                    WeatherText(
+                        text: info.temp,
+                        style: (.largeTitleLight, .gray),
+                        alignment: .trailing
+                    )
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(WeatherColor.section.color)
+                .cornerRadius(16)
+                
+                GeometryReader { proxy in
+                    Image(systemName: "location.fill")
+                        .position(
+                            x: proxy.frame(in: .global).maxX - 30,
+                            y: proxy.frame(in: .local).minY + 20
+                        )
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(WeatherColor.blue.color)
+                }
+            }
+        }, itemHeight: 84) {
+            removeAction(info)
+        }
+    }
+}
