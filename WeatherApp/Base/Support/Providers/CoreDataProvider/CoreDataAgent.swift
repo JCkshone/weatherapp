@@ -9,17 +9,20 @@ import Foundation
 import CoreData
 import Combine
 
-public protocol CoreDataAgent: AnyObject {
-    func save(_ object: NSManagedObject)
-    func remove(_ object: NSManagedObject)
-}
+class CoreDataAgent<Entity: NSManagedObject> {
+    lazy var container: NSPersistentContainer = {
+         let container = NSPersistentContainer(name: "Weather")
+         container.loadPersistentStores { (_, error) in
+             if let error = error {
+                 fatalError("Failed to load persistent stores: \(error)")
+             }
+         }
+         return container
+     }()
 
-class CoreDataRepository<Entity: NSManagedObject> {
-    let context: NSManagedObjectContext
-    
-    init(context: NSManagedObjectContext) {
-        self.context = context
-    }
+     var context: NSManagedObjectContext {
+         return container.viewContext
+     }
     
     func add(_ body: @escaping (inout Entity) -> Void) -> AnyPublisher<Entity, Error> {
         Deferred { [context] in
@@ -63,6 +66,27 @@ class CoreDataRepository<Entity: NSManagedObject> {
                         context.delete(entity)
                         try context.save()
                         promise(.success(()))
+                    } catch {
+                        promise(.failure(error))
+                    }
+                }
+            }
+        }
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
+    
+    func fetch(sortDescriptors: [NSSortDescriptor] = [],
+               predicate: NSPredicate? = nil) -> AnyPublisher<[Entity], Error> {
+        Deferred { [context] in
+            Future { promise in
+                context.perform {
+                    let request = Entity.fetchRequest()
+                                        request.sortDescriptors = sortDescriptors
+                    request.predicate = predicate
+                    do {
+                        let results = try context.fetch(request) as! [Entity]
+                        promise(.success(results))
                     } catch {
                         promise(.failure(error))
                     }

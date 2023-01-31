@@ -54,12 +54,10 @@ struct FindCityScreenView: View {
                                 (viewModel.response?.list ?? []).enumerated()
                             ), id: \.offset
                         ) { (position, item) in
-                            ZStack{
-                                ResultFindCity(
-                                    info: item
-                                ) { itemSelect in
-                                    viewModel.saveCity(with: itemSelect)
-                                }
+                            ResultFindCity(
+                                info: item
+                            ) { itemSelect in
+                                viewModel.saveCity(with: itemSelect)
                             }
                         }
                     }

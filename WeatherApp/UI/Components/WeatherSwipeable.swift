@@ -10,6 +10,7 @@ import SwiftUI
 struct WeatherSwipeable<Content: View>: View {
     var content: () -> Content
     var itemHeight: CGFloat
+    var actionRemove: () -> Void
     
     @State var hoffset: CGFloat = 0
     @State var anchor: CGFloat = 0
@@ -21,9 +22,12 @@ struct WeatherSwipeable<Content: View>: View {
     
     
     init(@ViewBuilder content: @escaping () -> Content,
-         itemHeight: CGFloat) {
+         itemHeight: CGFloat,
+         actionRemove: @escaping () -> Void
+    ) {
         self.content = content
         self.itemHeight = itemHeight
+        self.actionRemove = actionRemove
     }
     
     var drag: some Gesture {
@@ -48,10 +52,8 @@ struct WeatherSwipeable<Content: View>: View {
                 content()
                     .frame(width: rightPast ? proxy.size.width - anchorWidth : proxy.size.width)
                     .zIndex(.zero)
-                
-                Button {
-                    
-                } label: {
+
+                Button(action: actionRemove) {
                     Image(systemName: "xmark")
                         .foregroundColor(WeatherColor.background.color)
                         .font(.system(size: 40))

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct MyCitiesScreenView: View {
+    @StateObject private var viewModel = MyCitiesViewModel()
     @State var searchValue: String = ""
-    
+
     var body: some View {
         ZStack {
             WeatherColor.background.color
@@ -31,18 +32,31 @@ struct MyCitiesScreenView: View {
                 .cornerRadius(12)
                 
                 ScrollView {
-                    VStack {
-                        MyCityItem()
-                        MyCityItem()
-                        MyCityItem()
-                        MyCityItem()
+                    LazyVStack(spacing: 6) {
+                        ForEach(
+                            Array(
+                                (viewModel.cities).enumerated()
+                            ), id: \.offset
+                        ) { (position, item) in
+                            MyCityItem(
+                                info: item
+                            ) { itemForRemove in
+                                viewModel.delete(entity: itemForRemove.entity)
+                            }
+                        }
                     }
                 }
                 .padding(.top)
+                .refreshable {
+                    viewModel.loadCities()
+                }
 
                 Spacer()
             }
             .padding(.horizontal)
+        }
+        .onAppear {
+            viewModel.loadCities()
         }
     }
 }
@@ -54,43 +68,42 @@ struct MyCitiesScreenView_Previews: PreviewProvider {
 }
 
 struct MyCityItem: View {
+    let info: MyCitiesItem
+    let removeAction: (MyCitiesItem) -> Void
+    
     var body: some View {
         WeatherSwipeable(content: {
-            HStack {
-                VStack {
-                    HStack {
-                        GeometryReader { proxy in
-                            WeatherText(
-                                text: "Madrid",
-                                style: (.semiMediumTitle, .dark),
-                                alignment: .leading
-                            )
-                            
-                            Image(systemName: "location.fill")
-                                .position(
-                                    x: proxy.frame(in: .global).midX - 15,
-                                    y: proxy.frame(in: .local).maxY - 21
-                                )
-                                .frame(width: 16, height: 16)
-                                .foregroundColor(WeatherColor.dark.color)
-                        }
-                    }
-                    
+            ZStack {
+                HStack(alignment: .center) {
                     WeatherText(
-                        text: "10:23",
-                        style: (.titleSection, .gray),
+                        text: info.name,
+                        style: (.semiMediumTitle, .dark),
                         alignment: .leading
                     )
+                    
+                    WeatherText(
+                        text: info.temp,
+                        style: (.largeTitleLight, .gray),
+                        alignment: .trailing
+                    )
                 }
-                WeatherText(
-                    text: "31°",
-                    style: (.largeTitleLight, .gray),
-                    alignment: .trailing
-                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(WeatherColor.section.color)
+                .cornerRadius(16)
+                
+                GeometryReader { proxy in
+                    Image(systemName: "location.fill")
+                        .position(
+                            x: proxy.frame(in: .global).maxX - 30,
+                            y: proxy.frame(in: .local).minY + 20
+                        )
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(WeatherColor.blue.color)
+                }
             }
-            .padding(.all)
-            .background(WeatherColor.section.color)
-            .cornerRadius(16)
-        }, itemHeight: 84)
+        }, itemHeight: 84) {
+            removeAction(info)
+        }
     }
 }

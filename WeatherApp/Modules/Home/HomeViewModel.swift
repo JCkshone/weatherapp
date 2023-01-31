@@ -6,12 +6,10 @@
 //
 
 import Foundation
-
 import Combine
 import SwiftUI
 import Resolver
 import CoreLocation
-
 
 enum HomeViewState {
     case showWeather

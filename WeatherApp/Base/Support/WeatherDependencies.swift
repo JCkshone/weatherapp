@@ -22,7 +22,8 @@ public enum WeatherDependencies {
         Resolver.register { GetWeatherInfoUseCase() as GetWeatherInfoUseCaseProtocol }
         Resolver.register { GetForecastInfoUseCase() as GetForecastInfoUseCaseProtocol }
         Resolver.register { SearchCityUseCase() as SearchCityUseCaseProtocol }
-
+        Resolver.register { CoreDataAgent<WeatherCityCore>() }
+        
         
         // MARK: - Storage
         Resolver.register(name: .userDefaults) { StorageProvider(strategy: .userDefaults) as StorageProviderProtocol }.scope(.application)

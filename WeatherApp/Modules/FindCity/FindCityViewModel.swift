@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import MapKit
 import Resolver
+import CoreData
 
 enum FindCityViewState {
     case showResults
@@ -22,6 +23,7 @@ class FindCityViewModel: ObservableObject {
     @Published var showConfirmation: Bool = false
     
     @Injected var store: Store<FindCityState, FindCityAction>
+    @Injected var coreData: CoreDataAgent<WeatherCityCore>
     
     private var cancellables = Set<AnyCancellable>()
 
@@ -57,7 +59,28 @@ extension FindCityViewModel {
     }
     
     func saveCity(with info: WeatherResult) {
-        print(info)
-        showConfirmation = true
+        coreData.add { model in
+            model.lat = info.coord.lat
+            model.long = info.coord.lon
+            model.name = info.name.components(separatedBy: " ").first ?? self.searchValue
+            model.active = false
+            model.temp = self.convertToCelsius(info.main.temp, addCelsius: false)
+        }.sink { completion in
+            switch completion {
+            case .failure(let error):
+                debugPrint("an error occurred \(error.localizedDescription)")
+            case .finished:
+                break
+            }
+        } receiveValue: { reponse in
+            self.showConfirmation = true
+            debugPrint("todo has been added")
+        }.store(in: &cancellables)
+    }
+    
+    func convertToCelsius(_ value: Double, addCelsius: Bool = true) -> String {
+        let t = Measurement(value: value, unit: UnitTemperature.kelvin)
+        let value = "\(round(t.converted(to: UnitTemperature.celsius).value))" + (addCelsius ? "°C" : .empty)
+        return "\(value.components(separatedBy: ".").first ?? .empty)°"
     }
 }
