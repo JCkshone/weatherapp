@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct MyCitiesScreenView: View {
     @StateObject private var viewModel = MyCitiesViewModel()
@@ -37,10 +38,13 @@ struct MyCitiesScreenView: View {
                                 ($viewModel.cities).enumerated()
                             ), id: \.offset
                         ) { (position, item) in
-                            MyCityItem(
-                                info: item.wrappedValue
-                            ) { itemForRemove in
+                            MyCityItem(info: item.wrappedValue) { itemForRemove in
                                 viewModel.delete(entity: itemForRemove.entity)
+                            } activeAction: { (lat, lon) in
+                                viewModel.changeActivation(
+                                    lat: lat,
+                                    lon: lon
+                                )
                             }
                         }
                     }
@@ -69,6 +73,7 @@ struct MyCitiesScreenView_Previews: PreviewProvider {
 struct MyCityItem: View {
     let info: MyCitiesItem
     let removeAction: (MyCitiesItem) -> Void
+    let activeAction: (Double, Double) -> Void
     
     var body: some View {
         WeatherSwipeable(content: {
@@ -103,6 +108,9 @@ struct MyCityItem: View {
             }
         }, itemHeight: 84, canDelete: info.canDelete) {
             removeAction(info)
+        }
+        .onTapGesture {
+            activeAction(info.lat, info.lon)
         }
     }
 }

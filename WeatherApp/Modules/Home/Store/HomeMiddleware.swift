@@ -29,7 +29,7 @@ enum HomeMiddleware {
                         model.lat = weather.response.coord.lat
                         model.long = weather.response.coord.lon
                         model.name = weather.response.name
-                        model.active = true
+                        model.active = false
                         model.temp = convertToCelsius(weather.response.main.temp) + "°"
                         model.canDelete = false
                     }.map { _ in

@@ -68,6 +68,9 @@ struct HomeScreenView: View {
         .onAppear {
             viewModel.viewDidLoad()
         }
+        .refreshable {
+            viewModel.triggerWeather()
+        }
     }
 }
 
