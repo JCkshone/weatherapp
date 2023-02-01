@@ -122,7 +122,8 @@ extension HomeViewModel {
     
     func triggerWeather() {
         let isActive = self.userPreferences.agent.bool(forKey: "active")
-
+        viewState = .isLoading
+        
         if userPreferences.agent.hasValue(forKey: String(describing: ActiveLocation.self)) {
             let action: HomeAction = isActive ?
                 .getCityWeatherWithActive(lat: currentLocation.lat, lon: currentLocation.lon) :
