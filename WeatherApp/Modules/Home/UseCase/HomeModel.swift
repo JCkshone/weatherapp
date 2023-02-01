@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct ActiveLocation: Codable {
+    let lat: Double
+    let lon: Double
+}
+
 // MARK: - HomeModel
 struct HomeModel: Decodable {
     let coord: Coord

@@ -22,6 +22,7 @@ enum WeatherError {
         case invalidResponse
         case timeOut
         case invalidDecodableModel
+        case invalidObject
     }
     enum CoreData: Error {
         case objectNotFound

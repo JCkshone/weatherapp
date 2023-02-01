@@ -10,7 +10,7 @@ import Foundation
 enum HomeReducer {
     static func reduce(state: inout HomeState, action: HomeAction) {
         switch action {
-        case .getCityWeather:
+        case .getCityWeather, .getCityWeatherWithActive:
             state = .loadingWeatherInfo
         
         case let .getCityWeatherSuccess(info, forecast):

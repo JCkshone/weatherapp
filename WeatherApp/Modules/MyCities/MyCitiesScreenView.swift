@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MyCitiesScreenView: View {
     @StateObject private var viewModel = MyCitiesViewModel()
-    @State var searchValue: String = ""
 
     var body: some View {
         ZStack {
@@ -23,7 +22,7 @@ struct MyCitiesScreenView: View {
                     alignment: .leading
                 )
                 VStack {
-                    TextField("Search for cities", text: $searchValue)
+                    TextField("Search for cities", text: $viewModel.searchValue)
                         .foregroundColor(WeatherColor.gray.color)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 14)
@@ -35,11 +34,11 @@ struct MyCitiesScreenView: View {
                     LazyVStack(spacing: 6) {
                         ForEach(
                             Array(
-                                (viewModel.cities).enumerated()
+                                ($viewModel.cities).enumerated()
                             ), id: \.offset
                         ) { (position, item) in
                             MyCityItem(
-                                info: item
+                                info: item.wrappedValue
                             ) { itemForRemove in
                                 viewModel.delete(entity: itemForRemove.entity)
                             }
@@ -56,7 +55,7 @@ struct MyCitiesScreenView: View {
             .padding(.horizontal)
         }
         .onAppear {
-            viewModel.loadCities()
+            viewModel.viewDidLoad()
         }
     }
 }
@@ -93,7 +92,7 @@ struct MyCityItem: View {
                 .cornerRadius(16)
                 
                 GeometryReader { proxy in
-                    Image(systemName: "location.fill")
+                    Image(systemName: info.isFirst ? "location.fill" : .empty)
                         .position(
                             x: proxy.frame(in: .global).maxX - 30,
                             y: proxy.frame(in: .local).minY + 20
@@ -102,7 +101,7 @@ struct MyCityItem: View {
                         .foregroundColor(WeatherColor.blue.color)
                 }
             }
-        }, itemHeight: 84) {
+        }, itemHeight: 84, canDelete: info.canDelete) {
             removeAction(info)
         }
     }

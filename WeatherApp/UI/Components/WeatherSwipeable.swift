@@ -10,6 +10,7 @@ import SwiftUI
 struct WeatherSwipeable<Content: View>: View {
     var content: () -> Content
     var itemHeight: CGFloat
+    var canDelete: Bool
     var actionRemove: () -> Void
     
     @State var hoffset: CGFloat = 0
@@ -23,25 +24,31 @@ struct WeatherSwipeable<Content: View>: View {
     
     init(@ViewBuilder content: @escaping () -> Content,
          itemHeight: CGFloat,
+         canDelete: Bool = true,
          actionRemove: @escaping () -> Void
     ) {
         self.content = content
         self.itemHeight = itemHeight
         self.actionRemove = actionRemove
+        self.canDelete = canDelete
     }
     
     var drag: some Gesture {
         DragGesture()
             .onChanged { value in
                 withAnimation {
-                    hoffset = anchor + value.translation.width
-                    rightPast = hoffset < -anchorWidth + (screenWidth / 15 )
+                    if canDelete {
+                        hoffset = anchor + value.translation.width
+                        rightPast = hoffset < -anchorWidth + (screenWidth / 15 )
+                    }
                 }
             }
             .onEnded { _ in
                 withAnimation {
-                    anchor = rightPast ? -anchorWidth : .zero
-                    hoffset = anchor
+                    if canDelete {
+                        anchor = rightPast ? -anchorWidth : .zero
+                        hoffset = anchor
+                    }
                 }
             }
     }
@@ -52,14 +59,17 @@ struct WeatherSwipeable<Content: View>: View {
                 content()
                     .frame(width: rightPast ? proxy.size.width - anchorWidth : proxy.size.width)
                     .zIndex(.zero)
-
-                Button(action: actionRemove) {
+                Button {
+                    rightPast = false
+                    delay(deadline: 0.5) {
+                        actionRemove()
+                    }                    
+                } label: {
                     Image(systemName: "xmark")
                         .foregroundColor(WeatherColor.background.color)
                         .font(.system(size: 40))
                         .padding(.horizontal, 16)
                         .padding(.vertical, 20)
-                    
                 }
                 .background(WeatherColor.dangerous.color)
                 .cornerRadius(16)
@@ -72,5 +82,6 @@ struct WeatherSwipeable<Content: View>: View {
         .contentShape(Rectangle())
         .gesture(drag)
         .clipped()
+        .animation(.default)
     }
 }

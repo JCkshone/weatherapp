@@ -36,6 +36,7 @@ public enum WeatherDependencies {
                 reducer: HomeReducer.reduce(state:action:),
                 middlewares: [
                     HomeMiddleware.executeGetWeatherInfo(),
+                    HomeMiddleware.executeGetWeatherActiveInfo(),
                 ]
             )
         }.scope(.cached)
