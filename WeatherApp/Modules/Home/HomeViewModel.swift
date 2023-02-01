@@ -44,8 +44,19 @@ class HomeViewModel: ObservableObject {
     @Published var forecastDays: [ForecastDayWithIcon] = []
     @Published var airCondition: ForecastCurrent? = nil
     
-    @Injected var locationProvider: LocationProviderProtocol
-    @Injected var store: Store<HomeState, HomeAction>
+    @Injected private var locationProvider: LocationProviderProtocol
+    @Injected private var store: Store<HomeState, HomeAction>
+    @Injected(name: .userDefaults) private var userPreferences: StorageProviderProtocol
+    
+    private var currentLocation: ActiveLocation {
+        guard let location = userPreferences.agent.object(
+            type: ActiveLocation.self,
+            forKey: String(describing: ActiveLocation.self)
+        ) else {
+            return ActiveLocation(lat: .zero, lon: .zero)
+        }
+        return location
+    }
     
     private var cancellables = Set<AnyCancellable>()
 
@@ -110,17 +121,21 @@ extension HomeViewModel {
     }
     
     func triggerWeather() {
-        locationProvider.agent.loadLocation()
+        let isActive = self.userPreferences.agent.bool(forKey: "active")
+
+        if userPreferences.agent.hasValue(forKey: String(describing: ActiveLocation.self)) {
+            let action: HomeAction = isActive ?
+                .getCityWeatherWithActive(lat: currentLocation.lat, lon: currentLocation.lon) :
+                .getCityWeather(lat: currentLocation.lat, lon: currentLocation.lon)
+            store.dispatch(action)
+            return
+        }
         locationProvider.agent.location.sink { [weak self] location in
             guard let self = self, let coordinate = location?.coordinate else { return }
-            self.store.dispatch(.getCityWeather(lat: coordinate.latitude, lon: coordinate.longitude))
-        }
-        .store(in: &cancellables)
-    }
-    
-    func updateWeather() {
-        locationProvider.agent.location.sink { location in
-            
+            let lat = coordinate.latitude
+            let lon = coordinate.longitude
+            let action: HomeAction = isActive ? .getCityWeatherWithActive(lat: lat, lon: lon) : .getCityWeather(lat: lat, lon: lon)
+            self.store.dispatch(action)
         }
         .store(in: &cancellables)
     }

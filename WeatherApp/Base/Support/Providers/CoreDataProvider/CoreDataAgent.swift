@@ -24,7 +24,7 @@ class CoreDataAgent<Entity: NSManagedObject> {
          return container.viewContext
      }
     
-    func add(_ body: @escaping (inout Entity) -> Void) -> AnyPublisher<Entity, Error> {
+    func add(_ body: @escaping (inout Entity) -> Void) -> AnyPublisher<Entity, WeatherError.Api> {
         Deferred { [context] in
             Future  { promise in
                 context.perform {
@@ -34,7 +34,8 @@ class CoreDataAgent<Entity: NSManagedObject> {
                         try context.save()
                         promise(.success(entity))
                     } catch {
-                        promise(.failure(error))
+                        debugPrint("[ERROR - Core Data] Entity \(String(describing: Entity.self)) - \(error.localizedDescription)")
+                        promise(.failure(.invalidResponse))
                     }
                 }
             }
@@ -42,12 +43,12 @@ class CoreDataAgent<Entity: NSManagedObject> {
         .eraseToAnyPublisher()
     }
     
-    func object(_ id: NSManagedObjectID) -> AnyPublisher<Entity, Error> {
+    func object(_ id: NSManagedObjectID) -> AnyPublisher<Entity, WeatherError.Api> {
         Deferred { [context] in
             Future { promise in
                 context.perform {
                     guard let entity = try? context.existingObject(with: id) as? Entity else {
-                        promise(.failure(WeatherError.CoreData.objectNotFound))
+                        promise(.failure(.invalidObject))
                         return
                     }
                     promise(.success(entity))
@@ -58,7 +59,7 @@ class CoreDataAgent<Entity: NSManagedObject> {
         .eraseToAnyPublisher()
     }
     
-    func delete(_ entity: Entity) -> AnyPublisher<Void, Error> {
+    func delete(_ entity: Entity) -> AnyPublisher<Void, WeatherError.Api> {
         Deferred { [context] in
             Future { promise in
                 context.perform {
@@ -67,7 +68,8 @@ class CoreDataAgent<Entity: NSManagedObject> {
                         try context.save()
                         promise(.success(()))
                     } catch {
-                        promise(.failure(error))
+                        debugPrint("[ERROR - Core Data] Entity \(String(describing: Entity.self)) - \(error.localizedDescription)")
+                        promise(.failure(.invalidResponse))
                     }
                 }
             }
@@ -77,7 +79,7 @@ class CoreDataAgent<Entity: NSManagedObject> {
     }
     
     func fetch(sortDescriptors: [NSSortDescriptor] = [],
-               predicate: NSPredicate? = nil) -> AnyPublisher<[Entity], Error> {
+               predicate: NSPredicate? = nil) -> AnyPublisher<[Entity], WeatherError.Api> {
         Deferred { [context] in
             Future { promise in
                 context.perform {
@@ -88,7 +90,8 @@ class CoreDataAgent<Entity: NSManagedObject> {
                         let results = try context.fetch(request) as! [Entity]
                         promise(.success(results))
                     } catch {
-                        promise(.failure(error))
+                        debugPrint("[ERROR - Core Data] Entity \(String(describing: Entity.self)) - \(error.localizedDescription)")
+                        promise(.failure(.invalidResponse))
                     }
                 }
             }
