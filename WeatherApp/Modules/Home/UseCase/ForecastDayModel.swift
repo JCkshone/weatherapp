@@ -13,7 +13,7 @@ struct ForecastDayModel: Decodable {
     let timezone: String
     let timezoneOffset: Int
     let current: ForecastCurrent
-    let minutely: [Minutely]
+    let minutely: [Minutely]?
     let hourly: [ForecastCurrent]
     let daily: [Daily]
 

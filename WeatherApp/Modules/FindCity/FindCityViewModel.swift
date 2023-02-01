@@ -65,6 +65,7 @@ extension FindCityViewModel {
             model.name = info.name.components(separatedBy: " ").first ?? self.searchValue
             model.active = false
             model.temp = self.convertToCelsius(info.main.temp, addCelsius: false)
+            model.canDelete = true
         }.sink { completion in
             switch completion {
             case .failure(let error):

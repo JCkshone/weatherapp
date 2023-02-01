@@ -13,7 +13,7 @@ public enum WeatherDependencies {
         
         // MARK: - General class
 
-        Resolver.register { LocationProvider(strategy: .coreLocation) as LocationProviderProtocol }
+        Resolver.register { LocationProvider(strategy: .coreLocation) as LocationProviderProtocol }.scope(.cached)
         
         // MARK: - Network
         Resolver.register { NetworkProvider() as NetworkProviderProtocol }
@@ -36,6 +36,7 @@ public enum WeatherDependencies {
                 reducer: HomeReducer.reduce(state:action:),
                 middlewares: [
                     HomeMiddleware.executeGetWeatherInfo(),
+                    HomeMiddleware.executeGetWeatherActiveInfo(),
                 ]
             )
         }.scope(.cached)
